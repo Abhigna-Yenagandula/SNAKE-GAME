@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>snakeGame.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #a9b7c6;}
+.s1 { color: #cc7832;}
+.s2 { color: #6897bb;}
+.s3 { color: #629755; font-style: italic;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+snakeGame.py</font>
+</center></td></tr></table>
+<pre>
+
+<span class="s1">from </span><span class="s0">turtle </span><span class="s1">import </span><span class="s0">*</span>
+<span class="s1">from </span><span class="s0">random </span><span class="s1">import </span><span class="s0">randrange</span>
+<span class="s1">from </span><span class="s0">freegames </span><span class="s1">import </span><span class="s0">square</span><span class="s1">, </span><span class="s0">vector</span>
+
+<span class="s0">food = vector(</span><span class="s2">0</span><span class="s1">, </span><span class="s2">0</span><span class="s0">)</span>
+<span class="s0">snake = [vector(</span><span class="s2">10</span><span class="s1">, </span><span class="s2">0</span><span class="s0">)]</span>
+<span class="s0">aim = vector(</span><span class="s2">0</span><span class="s1">, </span><span class="s0">-</span><span class="s2">10</span><span class="s0">)</span>
+
+<span class="s1">def </span><span class="s0">change(x</span><span class="s1">, </span><span class="s0">y):</span>
+    <span class="s3">&quot;Change snake direction.&quot;</span>
+    <span class="s0">aim.x = x</span>
+    <span class="s0">aim.y = y</span>
+
+<span class="s1">def </span><span class="s0">inside(head):</span>
+    <span class="s3">&quot;Return True if head inside boundaries.&quot;</span>
+    <span class="s1">return </span><span class="s0">-</span><span class="s2">200 </span><span class="s0">&lt; head.x &lt; </span><span class="s2">190 </span><span class="s1">and </span><span class="s0">-</span><span class="s2">200 </span><span class="s0">&lt; head.y &lt; </span><span class="s2">190</span>
+
+<span class="s1">def </span><span class="s0">move():</span>
+    <span class="s3">&quot;Move snake forward one segment.&quot;</span>
+    <span class="s0">head = snake[-</span><span class="s2">1</span><span class="s0">].copy()</span>
+    <span class="s0">head.move(aim)</span>
+
+    <span class="s1">if not </span><span class="s0">inside(head) </span><span class="s1">or </span><span class="s0">head </span><span class="s1">in </span><span class="s0">snake:</span>
+        <span class="s0">square(head.x</span><span class="s1">, </span><span class="s0">head.y</span><span class="s1">, </span><span class="s2">9</span><span class="s1">, </span><span class="s4">'red'</span><span class="s0">)</span>
+        <span class="s0">update()</span>
+        <span class="s1">return</span>
+
+    <span class="s0">snake.append(head)</span>
+
+    <span class="s1">if </span><span class="s0">head == food:</span>
+        <span class="s0">print(</span><span class="s4">'Snake:'</span><span class="s1">, </span><span class="s0">len(snake))</span>
+        <span class="s0">food.x = randrange(-</span><span class="s2">15</span><span class="s1">, </span><span class="s2">15</span><span class="s0">) * </span><span class="s2">20</span>
+        <span class="s0">food.y = randrange(-</span><span class="s2">15</span><span class="s1">, </span><span class="s2">15</span><span class="s0">) * </span><span class="s2">20</span>
+    <span class="s1">else</span><span class="s0">:</span>
+        <span class="s0">snake.pop(</span><span class="s2">0</span><span class="s0">)</span>
+
+    <span class="s0">clear()</span>
+
+    <span class="s1">for </span><span class="s0">body </span><span class="s1">in </span><span class="s0">snake:</span>
+        <span class="s0">square(body.x</span><span class="s1">, </span><span class="s0">body.y</span><span class="s1">, </span><span class="s2">9</span><span class="s1">, </span><span class="s4">'green'</span><span class="s0">)</span>
+
+    <span class="s0">square(food.x</span><span class="s1">, </span><span class="s0">food.y</span><span class="s1">, </span><span class="s2">9</span><span class="s1">, </span><span class="s4">'red'</span><span class="s0">)</span>
+    <span class="s0">update()</span>
+    <span class="s0">ontimer(move</span><span class="s1">, </span><span class="s2">100</span><span class="s0">)</span>
+
+
+<span class="s0">hideturtle()</span>
+<span class="s0">tracer(</span><span class="s1">False</span><span class="s0">)</span>
+<span class="s0">listen()</span>
+<span class="s0">onkey(</span><span class="s1">lambda</span><span class="s0">: change(</span><span class="s2">10</span><span class="s1">, </span><span class="s2">0</span><span class="s0">)</span><span class="s1">, </span><span class="s4">'Right'</span><span class="s0">)</span>
+<span class="s0">onkey(</span><span class="s1">lambda</span><span class="s0">: change(-</span><span class="s2">10</span><span class="s1">, </span><span class="s2">0</span><span class="s0">)</span><span class="s1">, </span><span class="s4">'Left'</span><span class="s0">)</span>
+<span class="s0">onkey(</span><span class="s1">lambda</span><span class="s0">: change(</span><span class="s2">0</span><span class="s1">, </span><span class="s2">10</span><span class="s0">)</span><span class="s1">, </span><span class="s4">'Up'</span><span class="s0">)</span>
+<span class="s0">onkey(</span><span class="s1">lambda</span><span class="s0">: change(</span><span class="s2">0</span><span class="s1">, </span><span class="s0">-</span><span class="s2">10</span><span class="s0">)</span><span class="s1">, </span><span class="s4">'Down'</span><span class="s0">)</span>
+<span class="s0">move()</span>
+<span class="s0">done()</span></pre>
+</body>
+</html>
